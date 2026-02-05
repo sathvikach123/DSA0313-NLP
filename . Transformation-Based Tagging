@@ -1,0 +1,23 @@
+ef transformation_based_tagger(sentence):
+    tokens = sentence.split()
+    tags = ["NN"] * len(tokens)   # initial tagging
+
+    for i, word in enumerate(tokens):
+        if word.lower() in ["is", "am", "are"]:
+            tags[i] = "VB"
+        if word.endswith("ing"):
+            tags[i] = "VBG"
+        if word.lower() in ["the", "a", "an"]:
+            tags[i] = "DT"
+        # transformation rule:
+        if i > 0 and tags[i-1] == "DT":
+            tags[i] = "NN"
+
+    return list(zip(tokens, tags))
+
+
+sentence = "the dog is barking"
+print(transformation_based_tagger(sentence))
+
+output:
+[('the', 'DT'), ('dog', 'NN'), ('is', 'VB'), ('barking', 'VBG')]
