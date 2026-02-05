@@ -1,0 +1,25 @@
+import re
+
+text = "My email id is example123@gmail.com"
+
+# Match: checks only at the beginning of the string
+match_pattern = r"My"
+match_result = re.match(match_pattern, text)
+
+if match_result:
+    print("Match found at beginning:", match_result.group())
+else:
+    print("No match at beginning")
+
+# Search: searches anywhere in the string
+search_pattern = r"\w+@\w+\.\w+"
+search_result = re.search(search_pattern, text)
+
+if search_result:
+    print("Email found:", search_result.group())
+else:
+    print("No email found")
+
+OUTPUT:
+Match found at beginning: My
+Email found: example123@gmail.com
