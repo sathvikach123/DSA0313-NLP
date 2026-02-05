@@ -1,0 +1,32 @@
+import re
+
+def regex_pos_tagger(sentence):
+    tokens = sentence.split()
+    tagged = []
+
+    for word in tokens:
+        if re.fullmatch(r".*ing", word):
+            tag = "VBG"      # gerund
+        elif re.fullmatch(r".*ed", word):
+            tag = "VBD"      # past tense verb
+        elif re.fullmatch(r"[0-9]+", word):
+            tag = "CD"       # cardinal number
+        elif re.fullmatch(r"(the|a|an)", word.lower()):
+            tag = "DT"       # determiner
+        elif re.fullmatch(r"(is|am|are|was|were)", word.lower()):
+            tag = "VB"
+        elif re.fullmatch(r".*ly", word):
+            tag = "RB"       # adverb
+        else:
+            tag = "NN"       # default noun
+
+        tagged.append((word, tag))
+
+    return tagged
+
+
+sentence = "the boy is running quickly"
+print(regex_pos_tagger(sentence))
+
+output:
+[('the', 'DT'), ('boy', 'NN'), ('is', 'VB'), ('running', 'VBG'), ('quickly', 'RB')]
