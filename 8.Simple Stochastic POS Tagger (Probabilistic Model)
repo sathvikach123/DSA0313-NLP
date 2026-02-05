@@ -1,0 +1,18 @@
+import random
+
+words = ["dog", "barks"]
+tag_prob = {
+    "dog": {"NN": 0.8, "VB": 0.2},
+    "barks": {"VB": 0.9, "NN": 0.1}
+}
+
+tags = []
+
+for w in words:
+    probs = tag_prob[w]
+    tags.append((w, random.choices(list(probs.keys()), list(probs.values()))[0]))
+
+print(tags)
+
+output:
+[('dog', 'NN'), ('barks', 'VB')]
