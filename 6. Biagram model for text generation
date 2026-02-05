@@ -1,0 +1,25 @@
+import random
+
+text = "the cat sat on the mat"
+words = text.split()
+
+bigrams = {}
+for i in range(len(words) - 1):
+    pair = (words[i], words[i + 1])
+    bigrams.setdefault(pair[0], []).append(pair[1])
+
+word = random.choice(words)
+result = [word]
+
+for _ in range(10):
+    if word in bigrams:
+        word = random.choice(bigrams[word])
+        result.append(word)
+    else:
+        break
+
+print(" ".join(result))
+
+
+output:
+sat on the mat
