@@ -1,0 +1,36 @@
+def earley_parser(words, grammar):
+    chart = [[] for _ in range(len(words)+1)]
+    chart[0].append(("S'", ["S"], 0))
+
+    for i in range(len(words)+1):
+        for state in chart[i]:
+            lhs, rhs, dot = state
+            if dot < len(rhs):
+                sym = rhs[dot]
+                if sym in grammar:
+                    for prod in grammar[sym]:
+                        chart[i].append((sym, prod, 0))
+                elif i < len(words) and sym == words[i]:
+                    chart[i+1].append((lhs, rhs, dot+1))
+            else:
+                for prev in chart[i]:
+                    if prev[2] < len(prev[1]) and prev[1][prev[2]] == lhs:
+                        chart[i].append((prev[0], prev[1], prev[2]+1))
+
+    return ("S'", ["S"], 1) in chart[len(words)]
+
+
+grammar = {
+    "S": [["NP", "VP"]],
+    "NP": [["Det", "N"]],
+    "VP": [["V", "NP"]],
+    "Det": [["the"]],
+    "N": [["dog"], ["cat"]],
+    "V": [["saw"]]
+}
+
+sentence = "the dog saw the cat".split()
+print(earley_parser(sentence, grammar)) 
+
+output:
+False
