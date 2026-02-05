@@ -1,0 +1,24 @@
+def check_agreement(sentence):
+    singular_subjects = ["he", "she", "it"]
+    plural_subjects = ["they", "we"]
+
+    words = sentence.lower().split()
+    subject = words[0]
+    verb = words[1]
+
+    if subject in singular_subjects and verb.endswith("s"):
+        return "Agreement Correct"
+    elif subject in plural_subjects and not verb.endswith("s"):
+        return "Agreement Correct"
+    else:
+        return "Agreement Incorrect"
+
+
+print(check_agreement("he runs"))
+print(check_agreement("they run"))
+print(check_agreement("they runs"))
+
+output:
+Agreement Correct
+Agreement Correct
+Agreement Incorrect
