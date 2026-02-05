@@ -1,0 +1,36 @@
+grammar = {
+    "S": [["NP", "VP"]],
+    "NP": [["Det", "N"]],
+    "VP": [["V", "NP"]],
+    "Det": [["the"], ["a"]],
+    "N": [["dog"], ["cat"]],
+    "V": [["chased"], ["saw"]]
+}
+
+def top_down_parse(symbol, words):
+    if not words and symbol not in grammar:
+        return False
+
+    if symbol not in grammar:
+        return words and words[0] == symbol
+
+    for rule in grammar[symbol]:
+        remaining = words[:]
+        success = True
+        for sym in rule:
+            if not remaining or not top_down_parse(sym, remaining):
+                success = False
+                break
+            remaining = remaining[1:]
+        if success:
+            return True
+
+    return False
+
+
+sentence = "the dog chased the cat".split()
+print(top_down_parse("S", sentence))
+
+output:
+False
+
